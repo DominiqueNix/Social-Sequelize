@@ -79,31 +79,5 @@ describe('Social Sequelzie Test', () => {
         
     })
     
-    //can create a user
-    //can update a user
-    //can destroy a user
-
-    //can create a comment 
-    //can update a comment 
-    //can destroy a comment
-
-    //can create a post 
-    //can update a post 
-    //can destroy a post
-
-    //can create a Profile 
-    //can update a Profile 
-    //can destroy a Profile
-
-    //can create a like 
-    //can update a like 
-    //can destroy a like
-
-    test("replace with your test", function() {
-        expect(true).toBe(true);
-    })
-
-
-
 
 })
