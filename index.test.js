@@ -7,6 +7,13 @@ const likeSeeds = require("./seed/likes.json");
 const postSeeds = require("./seed/posts.json");
 const profileSeeds = require("./seed/profiles.json");
 
+
+let maria;
+let mariaProfile;
+let mariaPost; 
+let mariaComment;
+let mariaLike;
+
 describe('Social Sequelzie Test', () => {
     /**
      * Runs the code prior to all tests
@@ -21,8 +28,29 @@ describe('Social Sequelzie Test', () => {
         await Like.bulkCreate(likeSeeds);
         await Post.bulkCreate(postSeeds);
         await Profile.bulkCreate(profileSeeds);
+        maria =  await User.create({
+            username: "maria_smith",
+            email: "ms@example.com"
+        })
+        mariaProfile = await Profile.create({  
+            bio: "I'm a actress",
+            profilePicture: "https://example.com/profile10.jpg",
+            birthday: "1988-07-16"
+        })
+        mariaPost = await Post.create({
+            "title": "Example title",
+            "body": "example body",
+            "createdAt": "2020-03-15T10:30:00.000Z"
+          })
+        mariaComment = await Comment.create({
+                "body": "example comment",
+                "createdAt": "2021-01-01T12:00:00Z"
+        })
+        mariaLike = await Like.create({
+            "reactionType": "👍",
+            "createdAt": "2021-03-20T10:00:00Z"
+        })
     })
-
     // Write your tests here
 
     //user and profile associated
@@ -34,8 +62,6 @@ describe('Social Sequelzie Test', () => {
         const test = await user1.getProfile();
         expect(test instanceof Profile).toBe(true)
 
-
-        
     })
     //user and post associated
     test("user and post have one to many association", async () => {
@@ -78,6 +104,82 @@ describe('Social Sequelzie Test', () => {
 
         
     })
-    
 
+    // User CRUD
+
+    test('User can create', async () => {
+       
+
+        expect(maria).toBeInstanceOf(User)
+    })
+
+    test('User can update', async () => {
+        await maria.update({email: 'msm@email.com'})
+        expect(maria.email).toBe('msm@email.com')
+    })
+    
+    test('User can delete', async () => {
+        let destroyedUser = await maria.destroy();
+        expect(destroyedUser).toEqual(maria)
+    })
+
+    //Profiles Crud
+    test('Profile can create', async () => {
+       
+
+        expect(mariaProfile).toBeInstanceOf(Profile)
+    })
+
+    test('Profile can update', async () => {
+        await mariaProfile.update({birthday: '1987-02-02'})
+        expect(mariaProfile.birthday).toBe('1987-02-02')
+    })
+    
+    test('Profile can delete', async () => {
+        let destroyedUser = await mariaProfile.destroy();
+        expect(destroyedUser).toEqual(mariaProfile)
+    })
+
+    //Post Crud
+    test('Post can create', async () => {
+        expect(mariaPost).toBeInstanceOf(Post)
+    })
+
+    test('Post can update', async () => {
+        await mariaPost.update({body: 'this is a new example post'})
+        expect(mariaPost.body).toBe('this is a new example post')
+    })
+    
+    test('Post can delete', async () => {
+        let destroyedUser = await mariaPost.destroy();
+        expect(destroyedUser).toEqual(mariaPost)
+    })
+    //Like Crud
+    test('Like can create', async () => {
+        expect(mariaLike).toBeInstanceOf(Like)
+    })
+
+    test('Like can update', async () => {
+        await mariaLike.update({reactionType: '😄'})
+        expect(mariaLike.reactionType).toBe('😄')
+    })
+    
+    test('Like can delete', async () => {
+        let destroyedUser = await mariaLike.destroy();
+        expect(destroyedUser).toEqual(mariaLike)
+    })
+    //Comment Crud
+    test('Comment can create', async () => {
+        expect(mariaComment).toBeInstanceOf(Comment)
+    })
+
+    test('Comment can update', async () => {
+        await mariaComment.update({body: 'this is a new example Comment'})
+        expect(mariaComment.body).toBe('this is a new example Comment')
+    })
+    
+    test('Comment can delete', async () => {
+        let destroyedUser = await mariaComment.destroy();
+        expect(destroyedUser).toEqual(mariaComment)
+    })
 })
